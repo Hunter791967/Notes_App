@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'note_model.g.dart';
+part 'note_model.g.dart'; //This file must be the same as model file name.
 @HiveType(typeId: 0)
 
 class NoteModel extends HiveObject {
