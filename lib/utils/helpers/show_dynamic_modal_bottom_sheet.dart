@@ -5,7 +5,7 @@ void showDynamicModalBottomSheet({
   required BuildContext context,
   required Widget child,
   double widthFactor = 0.8, // 70% width
-  double heightFactor = 0.54, // 49% height
+  double heightFactor = 0.60, // 49% height
   double borderRadius = 16.0,
   Color backgroundColor = AppColors.dMedGreen,
   bool isScrollControlled = true,

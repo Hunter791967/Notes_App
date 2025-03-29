@@ -1,60 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:notes_app/customWidgets/custom_persistent_footer_button.dart';
+import 'package:notes_app/customWidgets/custom_form.dart';
+import 'package:notes_app/customWidgets/custom_image.dart';
+import 'package:notes_app/customWidgets/custom_text.dart';
 import '../utils/components/app_colors.dart';
-import 'custom_button.dart';
-import 'custom_text_field.dart';
+
 
 class CustomModalBottomSheet extends StatelessWidget {
   const CustomModalBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 24),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            CustomTextField(
-              hintText: 'Title',
-              colorOne: AppColors.antiFlashWhite,
-              colorTwo: AppColors.antiFlashWhite,
-              borderRadiusOne: 16,
-              borderRadiusTwo: 16,
-              fontSize: 13,
-              //textController: productNameController,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomText(
+                  textTitle: 'NEW NOTE',
+                  textColor: AppColors.antiFlashWhite,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Anton',
+                ),
+                Gap(8),
+                CustomImage(
+                    imagePath: 'assets/images/iconmonstr-plus-circle-filled-240.png',
+                  imageHeight: 30,
+                )
+              ],
             ),
-            const Gap(20),
-            CustomTextField(
-              //textController: productPriceController,
-              hintText: 'Content',
-              //inputType: TextInputType.number,
-              colorOne: AppColors.antiFlashWhite,
-              colorTwo: AppColors.antiFlashWhite,
-              borderRadiusOne: 16,
-              borderRadiusTwo: 16,
-              fontSize: 13,
-              maxLines: 6,
-            ),
-            const Gap(40),
-            CustomButton(
-              buttonText: 'ADD',
-              fgColor: AppColors.dMedGreen,
-              bgColor: AppColors.antiFlashWhite,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              onTap: () {},
-            ),
-            const Gap(12),
-            const CustomPersistentFooterButton(
-              textOne:
-                  'You need to drag it down if you need to ',
-              textTwo: 'Close it ',
-              textThree:
-                  'and back to the Notes View Page.',
-              colorOne: AppColors.antiFlashWhite,
-              colorTwo: AppColors.dDarkGreen,
-            )
+            Gap(16),
+            CustomForm(),
           ],
         ),
       ),
