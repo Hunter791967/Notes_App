@@ -7,6 +7,8 @@ A new Flutter project.
 This project is a simple Notes Application using Flutter. It contains page for Showing Notes, 
 Add Note Modal and Page for Editing Note.
 
+We used Flutter_Bloc "Cubit" for the handling of the change in State Management.
+
 [//]: # (A few resources to get you started if this is your first Flutter project:)
 
 [//]: # ()
