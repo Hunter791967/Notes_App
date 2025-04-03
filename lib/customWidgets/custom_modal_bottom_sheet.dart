@@ -44,7 +44,9 @@ class CustomModalBottomSheet extends StatelessWidget {
                       print('Failed, ${state.errMessage}');
                     }
                     if(state is AddNoteSuccess) {
-                      print('Successed');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Note added successfully!")),
+                      );
                       Navigator.pop(context);
                     }
                   },
