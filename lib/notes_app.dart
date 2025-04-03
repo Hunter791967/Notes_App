@@ -28,7 +28,7 @@ class NotesApp extends StatelessWidget {
       //   'deleteProduct': (context) => const DeleteProduct(),
       //   'deleteCategory': (context) => const DeleteCategory(),
       },
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       initialRoute: 'notesView',
       // home: HomePage(),
     );
