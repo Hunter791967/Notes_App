@@ -11,15 +11,41 @@ import 'notes_app.dart';
 void main() async {
   await Hive.initFlutter();
 
-  await Hive.openBox(kNotesBox);
+  // ✅ Register the adapter BEFORE opening the box
+  Hive.registerAdapter(NoteModelAdapter());
 
-  Hive.registerAdapter(
-      NoteModelAdapter()); // To register the created type adapter
+  // Safe Box Opening Logic
+  try {
+    if (!Hive.isBoxOpen(kNotesBox)) {
+      print("Opening the Hive box...");
+      await Hive.openBox<NoteModel>(kNotesBox);
+    } else {
+      print("Hive box is already open.");
+    }
+  } catch (e) {
+    print("Error opening Hive box: $e");
+  }
+
+  // // ✅ Register the adapter BEFORE opening the box
+  // Hive.registerAdapter(NoteModelAdapter());
+  //
+  // // ✅ Open box after registering the adapter
+  // if (!Hive.isBoxOpen(kNotesBox)) {
+  //   await Hive.openBox<NoteModel>(kNotesBox); // Open only if not already opened
+  // }
+
 
 // Use Bloc Observer for Testing & Debugging The States
   Bloc.observer = SimpleBlocObserver();
 
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider(create: (context) => AddNoteCubit()),
-  ], child: const NotesApp()));
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (context) => AddNoteCubit()),
+    ],
+    child: const NotesApp(),
+  ));
+
+  // runApp(MultiBlocProvider(providers: [
+  //   BlocProvider(create: (context) => AddNoteCubit()),
+  // ], child: const NotesApp())); //runApp
 }
