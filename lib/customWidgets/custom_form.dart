@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:notes_app/cubits/addNote/add_note_cubit.dart';
+import 'package:notes_app/models/note_model.dart';
 import '../utils/components/app_colors.dart';
 import 'custom_button.dart';
 import 'custom_form_text_field.dart';
@@ -15,8 +18,9 @@ class CustomForm extends StatefulWidget {
 class _CustomFormState extends State<CustomForm> {
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  String? formFieldOne, formFieldTwo;
-  double? formFieldThree, formFieldFour;
+  String? formFieldOne, formFieldTwo, formFieldFive;
+  int? formFieldThree, formFieldFour;
+  double? formFieldSeven, formFieldEight;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class _CustomFormState extends State<CustomForm> {
       child: Column(
         children: [
           CustomFormTextField(
-            hintText: formFieldOne,
+            hintText: 'Enter note title',
             colorOne: AppColors.antiFlashWhite,
             colorTwo: AppColors.antiFlashWhite,
             borderRadiusOne: 16,
@@ -40,7 +44,7 @@ class _CustomFormState extends State<CustomForm> {
           const Gap(20),
           CustomFormTextField(
             //textController: productPriceController,
-            hintText: formFieldTwo,
+            hintText: 'Enter note contents',
             //inputType: TextInputType.number,
             colorOne: AppColors.antiFlashWhite,
             colorTwo: AppColors.antiFlashWhite,
@@ -61,16 +65,20 @@ class _CustomFormState extends State<CustomForm> {
             fontSize: 20,
             fontWeight: FontWeight.w600,
             onTap: () {
-              if(formKey.currentState!.validate()) {
-                formKey.currentState!.save(
-
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
+                var noteModel = NoteModel(
+                  date: DateTime.now().toString(),
+                  color: formFieldThree ?? Colors.amber.value, // or any default color,
+                  title: formFieldOne!,
+                  content: formFieldTwo!,
                 );
+                BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
               } else {
-                autoValidateMode = AutovalidateMode.always; //always validate if fields has null value
+                autoValidateMode = AutovalidateMode
+                    .always; //always validate if fields has null value
 
-                setState(() {
-
-                });
+                setState(() {});
               }
             },
           ),

@@ -18,17 +18,9 @@ class NotesApp extends StatelessWidget {
       routes: {
         'notesView': (context) => const NotesView(),
         'editNote': (context) => const EditNote(),
-      //   'showCategories': (context) => const ShowCategories(),
-      //   'productDetails': (context) => const ProductDetails(),
-      //   'addProduct': (context) => const AddProduct(),
-      //   //'addProduct': (context) => TestScreen(),
-      //   'addCategory': (context) => const AddCategory(),
-      //   'updateProduct': (context) => const UpdateProduct(),
-      //   'updateCategory': (context) => const UpdateCategory(),
-      //   'deleteProduct': (context) => const DeleteProduct(),
-      //   'deleteCategory': (context) => const DeleteCategory(),
+
       },
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       initialRoute: 'notesView',
       // home: HomePage(),
     );

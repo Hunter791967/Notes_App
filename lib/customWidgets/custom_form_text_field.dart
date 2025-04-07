@@ -39,15 +39,14 @@ class CustomFormTextField extends StatelessWidget {
       keyboardType: inputType,
       cursorColor: colorOne,
       maxLines: maxLines,
-      controller: textController ??
-          TextEditingController(
-              text: initialValue), // Use controller if provided
+      controller: textController,
+      initialValue: textController == null ? initialValue : null,
       obscureText: obSecureText!,
       validator: (data) {
         if (data?.isEmpty ?? true) {
           return 'This Field Is Required';
         }
-        return "Error In Field";
+        return null; // Validation passed
       },
       onChanged: onChanged,
       decoration: InputDecoration(
