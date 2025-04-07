@@ -6,6 +6,7 @@ import 'package:notes_app/cubits/addNote/add_note_cubit.dart';
 import 'package:notes_app/cubits/addNote/add_note_state.dart';
 import 'package:notes_app/customWidgets/custom_form.dart';
 import 'package:notes_app/customWidgets/custom_image.dart';
+import 'package:notes_app/customWidgets/custom_snack_bar_text.dart';
 import 'package:notes_app/customWidgets/custom_text.dart';
 import '../utils/components/app_colors.dart';
 
@@ -14,9 +15,10 @@ class CustomModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24),
-        child: SingleChildScrollView(
+    return BlocProvider(
+      create: (context) => AddNoteCubit(),
+      child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24),
           child: Column(
             children: [
               const Row(
@@ -40,24 +42,41 @@ class CustomModalBottomSheet extends StatelessWidget {
               const Gap(16),
               BlocConsumer<AddNoteCubit, AddNoteState>(
                   listener: (BuildContext context, state) {
-                    if(state is AddNoteError) {
-                      print('Failed, ${state.errMessage}');
-                    }
-                    if(state is AddNoteSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Note added successfully!")),
-                      );
-                      Navigator.pop(context);
-                    }
-                  },
-                  builder: (context, state) {
-                    return ModalProgressHUD(
-                        inAsyncCall: state is AddNoteLoading ? true : false,
-                        child: const CustomForm()
-                    );
-                  }),
+                if (state is AddNoteError) {
+                  //print('Failed, ${state.errMessage}');
+                  CustomSnackBarText(
+                    snackBarText:
+                        "Note Failed to be added, ${state.errMessage}",
+                    backgroundColor: AppColors.dHeartRed,
+                    snackBarColor: AppColors.antiFlashWhite,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    duration: 14,
+                  ).showCustomSnackBar(context);
+                }
+                if (state is AddNoteSuccess) {
+                  //print('The Note Is Added Successfully');
+                  CustomSnackBarText(
+                    snackBarText: "Note added successfully!",
+                    backgroundColor: AppColors.antiFlashWhite,
+                    snackBarColor: AppColors.dMedGreen,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    duration: 2,
+                  ).showCustomSnackBar(context);
+                  Future.delayed(const Duration(milliseconds: 300), () {
+                    if (context.mounted) Navigator.pop(context);
+                  });
+                }
+              }, builder: (context, state) {
+                return ModalProgressHUD(
+                    inAsyncCall: state is AddNoteLoading ? true : false,
+                    child: const SingleChildScrollView(
+                      child: CustomForm(),
+                    ));
+              }),
             ],
-          ),
-        ));
+          )),
+    );
   }
 }
