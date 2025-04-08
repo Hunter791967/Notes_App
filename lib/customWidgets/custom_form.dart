@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:notes_app/cubits/addNote/add_note_cubit.dart';
+import 'package:notes_app/cubits/addNote/add_note_state.dart';
 import 'package:notes_app/models/note_model.dart';
 import '../utils/components/app_colors.dart';
 import 'custom_button.dart';
@@ -21,6 +22,7 @@ class _CustomFormState extends State<CustomForm> {
   String? formFieldOne, formFieldTwo, formFieldFive;
   int? formFieldThree, formFieldFour;
   double? formFieldSeven, formFieldEight;
+  bool isSaving = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,29 +60,42 @@ class _CustomFormState extends State<CustomForm> {
             },
           ),
           const Gap(40),
-          CustomButton(
-            buttonText: 'ADD',
-            fgColor: AppColors.dMedGreen,
-            bgColor: AppColors.antiFlashWhite,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            onTap: () {
-              if (formKey.currentState!.validate()) {
-                formKey.currentState!.save();
-                var noteModel = NoteModel(
-                  date: DateTime.now().toString(),
-                  color: formFieldThree ?? Colors.amber.value, // or any default color,
-                  title: formFieldOne!,
-                  content: formFieldTwo!,
-                );
-                BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
-              } else {
-                autoValidateMode = AutovalidateMode
-                    .always; //always validate if fields has null value
-
-                setState(() {});
+          BlocListener<AddNoteCubit, AddNoteState>(
+            listener: (context, state) {
+              if (state is AddNoteLoading) {
+                setState(() {
+                  isSaving = true;
+                });
+              } else if (state is AddNoteSuccess || state is AddNoteError) {
+                setState(() {
+                  isSaving = false;
+                });
               }
             },
+            child: CustomButton(
+              buttonText: isSaving ? 'SAVING' : 'ADD',
+              fgColor: AppColors.dMedGreen,
+              bgColor: AppColors.antiFlashWhite,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              onTap: () {
+                if (formKey.currentState!.validate()) {
+                  formKey.currentState!.save();
+                  var noteModel = NoteModel(
+                    date: DateTime.now().toString(),
+                    color: formFieldThree ?? Colors.amber.value, // or any default color,
+                    title: formFieldOne!,
+                    content: formFieldTwo!,
+                  );
+                  BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
+                } else {
+                  autoValidateMode = AutovalidateMode
+                      .always; //always validate if fields has null value
+
+                  setState(() {});
+                }
+              },
+            ),
           ),
           const Gap(12),
           const CustomPersistentFooterButton(

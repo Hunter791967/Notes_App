@@ -13,6 +13,7 @@ class AddNoteCubit extends Cubit<AddNoteState> {
     emit(AddNoteLoading());
     
     try {
+      await Future.delayed(const Duration(milliseconds: 300)); // 👈 Gives UI time to show spinner
       var notesBox = Hive.box<NoteModel>(kNotesBox); // Access the Box with proper type
       await notesBox.add(noteModel); // Add the note to the box.
       emit(AddNoteSuccess()); // Emit Success Here
