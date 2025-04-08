@@ -19,6 +19,12 @@ class CustomModalBottomSheet extends StatelessWidget {
       create: (context) => AddNoteCubit(),
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24),
+          // padding: EdgeInsets.only(
+          //   left: 10,
+          //   right: 10,
+          //   top: 10,
+          //   bottom: MediaQuery.of(context).viewInsets.bottom,
+          // ),
           child: Column(
             children: [
               const Row(
