@@ -20,5 +20,10 @@ class NoteModel extends HiveObject {
     required this.content,
   });
 
+  // Override the toString() method to provide a better string representation
+  @override
+  String toString() {
+    return 'NoteModel(title: $title, content: $content, date: $date, color: $color)';
+  }
 
 }

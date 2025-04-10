@@ -13,8 +13,8 @@ class ShowNotesSuccess extends ShowNotesState {
   ShowNotesSuccess(this.notes);
 }
 
-class ShowNotesError extends ShowNotesState {
-  final String errMessage;
-
-  ShowNotesError(this.errMessage);
-}
+// class ShowNotesError extends ShowNotesState {
+//   final String errMessage;
+//
+//   ShowNotesError(this.errMessage);
+// }

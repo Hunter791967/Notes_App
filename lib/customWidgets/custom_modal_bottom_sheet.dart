@@ -8,6 +8,7 @@ import 'package:notes_app/customWidgets/custom_form.dart';
 import 'package:notes_app/customWidgets/custom_image.dart';
 import 'package:notes_app/customWidgets/custom_snack_bar_text.dart';
 import 'package:notes_app/customWidgets/custom_text.dart';
+import '../cubits/showNotes/show_notes_cubit.dart';
 import '../utils/components/app_colors.dart';
 
 class CustomModalBottomSheet extends StatelessWidget {
@@ -72,7 +73,11 @@ class CustomModalBottomSheet extends StatelessWidget {
                       duration: 2,
                     ).showCustomSnackBar(context);
                     Future.delayed(const Duration(milliseconds: 300), () {
-                      if (context.mounted) Navigator.pop(context);
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                        // ✅ Fetch updated notes list after adding
+                        context.read<ShowNotesCubit>().fetchNotes(); // Refresh the notes list
+                      }
                     });
                   }
                 }, builder: (context, state) {
