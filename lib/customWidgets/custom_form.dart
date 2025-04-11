@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:notes_app/cubits/addNote/add_note_cubit.dart';
 import 'package:notes_app/cubits/addNote/add_note_state.dart';
 import 'package:notes_app/models/note_model.dart';
@@ -81,8 +82,9 @@ class _CustomFormState extends State<CustomForm> {
               onTap: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
+                  var formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
                   var noteModel = NoteModel(
-                    date: DateTime.now().toString(),
+                    date: formattedDate,
                     color: formFieldThree ?? Colors.green.value, // or any default color,
                     title: formFieldOne!,
                     content: formFieldTwo!,
