@@ -16,6 +16,61 @@ import '../utils/components/app_colors.dart';
 class NotesView extends StatelessWidget {
   const NotesView({super.key});
 
+  void _showDeleteConfirmationDialog(BuildContext context, NoteModel note) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.dMedGreen,
+          title: const Text(
+            'Confirm Deletion',
+            style: TextStyle(
+              color: AppColors.antiFlashWhite,
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          content: const Text(
+            'Are you sure you want to delete this note?',
+            style: TextStyle(
+              color: AppColors.antiFlashWhite,
+              fontSize: 16,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  color: AppColors.antiFlashWhite,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Delete it using HiveObject Features but wait until note is deleted.
+                note.delete();
+                // Refresh the list after deletion
+                context.read<ShowNotesCubit>().fetchNotes();
+                Navigator.pop(context); // Close the dialog first
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(
+                  color: AppColors.dRealRed,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,10 +114,9 @@ class NotesView extends StatelessWidget {
           shape: const CircleBorder(), // Make sure it's circular
           child: const Icon(Icons.add),
         ),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
 
-        /// ✅ BlocBuilder to listen to state changes
+        /// BlocBuilder to listen to state changes
         body: BlocBuilder<ShowNotesCubit, ShowNotesState>(
           builder: (BuildContext context, ShowNotesState state) {
             if (state is ShowNotesSuccess) {
@@ -71,7 +125,7 @@ class NotesView extends StatelessWidget {
               return CustomListViewBuilder<NoteModel>(
                 items: notes,
                 itemBuilder: (context, note, index) {
-                  // 👇 Add this line here to print the color value of each note
+                  // Add this line here to print the color value of each note
                   print('Note color int: ${note.color}');
                   return CustomTappedWidget(
                     onTap: () {
@@ -105,24 +159,33 @@ class NotesView extends StatelessWidget {
                                 dFontWeightTwo: FontWeight.w400,
                                 trailing: IconButton(
                                   onPressed: () {
-                                    // add delete logic
+
+                                    _showDeleteConfirmationDialog(context, note);
+
+                                    // // Delete it using HiveObject Features but wait until note is deleted.
+                                    // note.delete();
+                                    // // Refresh the list after deletion
+                                    // context.read<ShowNotesCubit>().fetchNotes();
                                   },
                                   icon: const Icon(FontAwesomeIcons.trash,
                                       size: 40),
                                 ),
                                 topPadding: 6,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    note.date,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      note.date,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
