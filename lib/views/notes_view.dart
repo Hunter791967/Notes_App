@@ -71,6 +71,8 @@ class NotesView extends StatelessWidget {
               return CustomListViewBuilder<NoteModel>(
                 items: notes,
                 itemBuilder: (context, note, index) {
+                  // 👇 Add this line here to print the color value of each note
+                  print('Note color int: ${note.color}');
                   return CustomTappedWidget(
                     onTap: () {
                       Navigator.pushNamed(context, 'editNote');
@@ -86,7 +88,7 @@ class NotesView extends StatelessWidget {
                         blurRadius: 4,
                         spreadRadius: -10,
                         borderRadius: 16,
-                        containerBgColor: AppColors.dGreen,
+                        containerBgColor: Color(note.color),
                         widget: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 24),

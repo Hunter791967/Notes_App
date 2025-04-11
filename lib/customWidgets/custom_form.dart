@@ -83,7 +83,7 @@ class _CustomFormState extends State<CustomForm> {
                   formKey.currentState!.save();
                   var noteModel = NoteModel(
                     date: DateTime.now().toString(),
-                    color: formFieldThree ?? Colors.amber.value, // or any default color,
+                    color: formFieldThree ?? Colors.green.value, // or any default color,
                     title: formFieldOne!,
                     content: formFieldTwo!,
                   );
