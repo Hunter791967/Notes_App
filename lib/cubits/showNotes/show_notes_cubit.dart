@@ -10,8 +10,15 @@ class ShowNotesCubit extends Cubit<ShowNotesState> {
   fetchNotes() {
     var notesBox =
         Hive.box<NoteModel>(kNotesBox); // Access the Box with proper type
+
+    print("ShowNotesCubit box length: ${notesBox.length}");
+    for (var note in notesBox.values) {
+      print("📄 Fetched note: $note");
+    }
+
     List<NoteModel> notes =
         notesBox.values.toList(); // Add the note to the box.
+
     emit(ShowNotesSuccess(notes)); // Emit Success Here
   }
 }

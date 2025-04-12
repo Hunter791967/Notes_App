@@ -100,7 +100,7 @@ class NotesView extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showDynamicModalBottomSheet(
+           showDynamicModalBottomSheet(
               context: context,
               child: BlocProvider.value(
                 value: context.read<ShowNotesCubit>(),
@@ -108,6 +108,8 @@ class NotesView extends StatelessWidget {
               ),
               isScrollControlled: true,
             );
+            // Refresh notes after bottom sheet is dismissed
+            context.read<ShowNotesCubit>().fetchNotes();
           },
           backgroundColor: AppColors.dMedGreen,
           foregroundColor: AppColors.antiFlashWhite,
@@ -129,7 +131,7 @@ class NotesView extends StatelessWidget {
                   print('Note color int: ${note.color}');
                   return CustomTappedWidget(
                     onTap: () {
-                      Navigator.pushNamed(context, 'editNote');
+                      Navigator.pushNamed(context, 'editNote', arguments: note);
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -159,8 +161,8 @@ class NotesView extends StatelessWidget {
                                 dFontWeightTwo: FontWeight.w400,
                                 trailing: IconButton(
                                   onPressed: () {
-
-                                    _showDeleteConfirmationDialog(context, note);
+                                    _showDeleteConfirmationDialog(
+                                        context, note);
 
                                     // // Delete it using HiveObject Features but wait until note is deleted.
                                     // note.delete();
