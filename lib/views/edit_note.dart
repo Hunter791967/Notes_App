@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:notes_app/customWidgets/custom_app_bar.dart';
+import 'package:notes_app/models/note_model.dart';
 
 import '../customWidgets/custom_persistent_footer_button.dart';
 import '../customWidgets/custom_text_field.dart';
 import '../utils/components/app_colors.dart';
 
 class EditNote extends StatelessWidget {
-  const EditNote({super.key});
+  const EditNote({super.key, required this.noteModel});
+
+  final NoteModel noteModel;
 
   @override
   Widget build(BuildContext context) {
