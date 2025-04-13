@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:notes_app/cubits/addNote/add_note_cubit.dart';
 import 'package:notes_app/cubits/addNote/add_note_state.dart';
 import 'package:notes_app/models/note_model.dart';
 import '../utils/components/app_colors.dart';
+import '../utils/components/color_item.dart';
+import '../utils/constants/constants.dart';
 import 'custom_button.dart';
 import 'custom_form_text_field.dart';
 import 'custom_persistent_footer_button.dart';
@@ -83,9 +86,14 @@ class _CustomFormState extends State<CustomForm> {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
                   var formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+                  // Get note count from Hive and assign dynamic color
+                  final notesBox = Hive.box<NoteModel>(kNotesBox);
+                  final noteCount = notesBox.length;
+                  final formFieldThree = ColorItem.getColorByIndex(noteCount);
+
                   var noteModel = NoteModel(
                     date: formattedDate,
-                    color: formFieldThree ?? Colors.green.value, // or any default color,
+                    color: formFieldThree,
                     title: formFieldOne!,
                     content: formFieldTwo!,
                   );
