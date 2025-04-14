@@ -14,12 +14,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(NoteModelAdapter());
 
-  print("Opening Hive box...");
   final notesBox = await Hive.openBox<NoteModel>(kNotesBox);
-  print("Box opened. Contains ${notesBox.length} notes");
-  for (var note in notesBox.values) {
-    print("📝 ${note.toString()}");
-  }
 
   runApp(
     BlocProvider(
@@ -30,43 +25,3 @@ Future<void> main() async {
 }
 
 
-// void main() async {
-//   // Use Bloc Observer for Testing & Debugging The States
-//   Bloc.observer = SimpleBlocObserver();
-//
-//   // Initialize Hive
-//   await Hive.initFlutter();
-//
-//   // ✅ Register the adapter BEFORE opening the box
-//   Hive.registerAdapter(NoteModelAdapter());
-//
-//   // Safe Box Opening Logic
-//   try {
-//     if (!Hive.isBoxOpen(kNotesBox)) {
-//       print("Opening the Hive box...");
-//       final box = await Hive.openBox<NoteModel>(
-//           kNotesBox); //Open box after registering the adapter
-//       //   if (box.isEmpty) {
-//       //     box.add(NoteModel(
-//       //       title: 'Test Note',
-//       //       content: 'This is a test note',
-//       //       date: DateTime.now().toString(),
-//       //       color: Colors.blue.value,
-//       //     )
-//       //     );
-//       //   }
-//       // } else {
-//       //   print("Hive box is already open.");
-//       //
-//     }
-//   } catch (e) {
-//     print("Error opening Hive box: $e");
-//   }
-//
-//   runApp(
-//     BlocProvider(
-//       create: (context) => ShowNotesCubit()..fetchNotes(),
-//       child: const NotesApp(),
-//     ),
-//   );
-// }

@@ -123,12 +123,12 @@ class NotesView extends StatelessWidget {
           builder: (BuildContext context, ShowNotesState state) {
             if (state is ShowNotesSuccess) {
               final notes = state.notes;
-              print("Notes loaded: ${notes.length}");
+              //print("Notes loaded: ${notes.length}");
               return CustomListViewBuilder<NoteModel>(
                 items: notes,
                 itemBuilder: (context, note, index) {
                   // Add this line here to print the color value of each note
-                  print('Note color int: ${note.color}');
+                  //print('Note color int: ${note.color}');
                   return CustomTappedWidget(
                     onTap: () {
                       Navigator.pushNamed(context, 'editNote', arguments: note);

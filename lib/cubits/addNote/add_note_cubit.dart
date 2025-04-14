@@ -19,7 +19,7 @@ class AddNoteCubit extends Cubit<AddNoteState> {
       await notesBox.add(noteModel); // Add the note to the box.
 
       // Print all notes to verify if the note is added
-      print('Notes in Hive Box: ${notesBox.values.toList()}');
+      //print('Notes in Hive Box: ${notesBox.values.toList()}');
 
       emit(AddNoteSuccess()); // Emit Success Here
     } catch (e) {
